@@ -1,3 +1,7 @@
-uvicorn
+wsproto
+websocket
 fastapi
 slowapi
+sounddevice
+numpy
+loguru
