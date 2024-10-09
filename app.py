@@ -5,15 +5,12 @@ from slowapi.errors import RateLimitExceeded
 from slowapi import Limiter, _rate_limit_exceeded_handler
 from slowapi.util import get_remote_address
 from datetime import datetime
-from loguru import logger
-from loguru._defaults import LOGURU_FORMAT
 from glob import glob
 from os.path import dirname, basename, isfile, join
 from asyncio import create_task, run
 import logging
 from random import choice
 from string import ascii_letters, digits
-import websockets
 import json
 import sys
 
@@ -54,6 +51,7 @@ async def websocket_endpoint(websocket: WebSocket, room_id: str):
         while True:
             await websocket.send_json({"type": "users", "data": [str(ws) for ws in app.rooms_ws[room_id]]})
             data = await websocket.receive_text()
+            print('Received: ' + data[:100] + '...')
             if data:
                 message = json.loads(data)
                 if message['type'] == 'audio':

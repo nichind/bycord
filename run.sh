@@ -13,4 +13,4 @@ source .venv/bin/activate
 $python_executable -m pip install --upgrade pip
 $python_executable -m pip install -r requirements.txt
 sudo kill -9 `sudo lsof -t -i:$port`
-$python_executable -m uvicorn app:app --ws wsproto --host $host --port $port --reload
+$python_executable -m uvicorn app:app --host $host --port $port --reload --ws wsproto
