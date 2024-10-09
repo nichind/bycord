@@ -52,14 +52,13 @@ async def websocket_endpoint(websocket: WebSocket, room_id: str):
 
     try:
         while True:
+            await websocket.send_json({"type": "users", "data": [str(ws) for ws in app.rooms_ws[room_id]]})
             data = await websocket.receive_text()
-            # print('Received:', data[0:100] + '...')
             if data:
                 message = json.loads(data)
                 if message['type'] == 'audio':
                     for ws in app.rooms_ws[room_id]:
                         if ws != websocket:
-                            # print('Sending:', str(message)[0:100] + '...')
                             await ws.send_json(message)
     except WebSocketDisconnect:
         app.rooms_ws[room_id].remove(websocket)
